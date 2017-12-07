@@ -116,18 +116,10 @@ public class ExplosionNukeAdvanced
 		if (dist > 0)
 		{
 			dist = (int) Math.sqrt(dist);
-			//int dist0 = (int)Math.sqrt(this.radius2*0.15f - (x * x + z * z));
 			for (int y = dist; y > -dist * this.explosionCoefficient; y--)
 			{
 				y-=ExplosionNukeGeneric.vaporDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
-				/*
-				if(dist0>0){//skip blocks already in the destruction zone: we will 
-					if(y>=dist0 || y<=-dist0*this.explosionCoefficient){
-						y-=ExplosionNukeGeneric.vaporDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
-					}
-				}else{
-					y-=ExplosionNukeGeneric.vaporDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
-				}*/
+
 			}
 		}
 	}
