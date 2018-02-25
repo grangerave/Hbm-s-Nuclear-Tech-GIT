@@ -99,6 +99,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2 == ModItems.powder_meteorite
+				|| item == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
+			return new ItemStack(ModItems.ingot_starmetal, 2);
+		}
+
 		return null;
 	}
 
@@ -157,7 +162,7 @@ public class MachineRecipes {
 				new ItemStack(ModItems.rod_dual_waste, 1) };
 		ItemStack[] schrabidium3 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 4),
 				new ItemStack(ModItems.nugget_lead, 19), new ItemStack(ModItems.nugget_neptunium, 1),
-				new ItemStack(ModItems.rod_quad_euphemium, 1, 34) };
+				new ItemStack(ModItems.rod_quad_euphemium, 1) };
 
 		if (item == ModItems.cell_uf6) {
 			return uranium;
@@ -529,17 +534,17 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.fluorite, 1);
 			if(item.getItem() == ModItems.powder_coal)
 				return new ItemStack(ModItems.fluorite, 1);
-			if(item.getItem() == ModItems.powder_iron)
+			if(mODE(item, "dustIron"))
 				return new ItemStack(ModItems.powder_cobalt, 1);
-			if(item.getItem() == ModItems.powder_gold)
+			if(mODE(item, "dustGold"))
 				return new ItemStack(ModItems.powder_lead, 1);
-			if(item.getItem() == ModItems.powder_quartz)
+			if(mODE(item, "dustNetherQuartz"))
 				return new ItemStack(ModItems.sulfur, 1);
-			if(item.getItem() == ModItems.powder_uranium)
+			if(mODE(item, "dustUranium"))
 				return new ItemStack(ModItems.powder_plutonium, 1);
-			if(item.getItem() == ModItems.powder_aluminium)
+			if(mODE(item, "dustAluminum"))
 				return new ItemStack(ModItems.powder_quartz, 1);
-			if(item.getItem() == ModItems.powder_beryllium)
+			if(mODE(item, "dustBeryllium"))
 				return new ItemStack(ModItems.powder_coal, 1);
 			if(item.getItem() == ModItems.powder_schrabidium)
 				return new ItemStack(ModItems.powder_reiium, 1);
@@ -553,7 +558,7 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.powder_lanthanium, 1);
 			if(item.getItem() == ModItems.powder_reiium)
 				return new ItemStack(ModItems.powder_weidanium, 1);
-			if(item.getItem() == ModItems.powder_cobalt)
+			if(mODE(item, "dustCobalt"))
 				return new ItemStack(ModItems.powder_copper, 1);
 			if(item.getItem() == ModItems.powder_cerium)
 				return new ItemStack(ModItems.powder_neodymium, 1);
@@ -565,27 +570,27 @@ public class MachineRecipes {
 		
 		//BERYLLIUM
 		if (part.getItem() == ModItems.part_beryllium) {
-			if(item.getItem() == ModItems.sulfur)
+			if(mODE(item, "dustSulfur"))
 				return new ItemStack(ModItems.powder_titanium, 1);
 			if(item.getItem() == ModItems.fluorite)
 				return new ItemStack(ModItems.powder_aluminium, 1);
-			if(item.getItem() == ModItems.powder_iron)
+			if(mODE(item, "dustIron"))
 				return new ItemStack(ModItems.powder_copper, 1);
-			if(item.getItem() == ModItems.powder_quartz)
+			if(mODE(item, "dustNetherQuartz"))
 				return new ItemStack(ModItems.powder_titanium, 1);
-			if(item.getItem() == ModItems.powder_titanium)
+			if(mODE(item, "dustTitanium"))
 				return new ItemStack(ModItems.powder_iron, 1);
-			if(item.getItem() == ModItems.powder_copper)
+			if(mODE(item, "dustCopper"))
 				return new ItemStack(ModItems.powder_bromine, 1);
-			if(item.getItem() == ModItems.powder_tungsten)
+			if(mODE(item, "dustTungsten"))
 				return new ItemStack(ModItems.powder_gold, 1);
-			if(item.getItem() == ModItems.powder_aluminium)
+			if(mODE(item, "dustAluminum"))
 				return new ItemStack(ModItems.sulfur, 1);
-			if(item.getItem() == ModItems.powder_lead)
+			if(mODE(item, "dustLead"))
 				return new ItemStack(ModItems.powder_astatine, 1);
-			if(item.getItem() == ModItems.powder_beryllium)
+			if(mODE(item, "dustBeryllium"))
 				return new ItemStack(ModItems.niter, 1);
-			if(item.getItem() == ModItems.powder_lithium)
+			if(mODE(item, "dustLithium"))
 				return new ItemStack(ModItems.niter, 1);
 			if(item.getItem() == ModItems.powder_iodine)
 				return new ItemStack(ModItems.powder_cerium, 1);
@@ -609,37 +614,37 @@ public class MachineRecipes {
 		
 		//CARBON
 		if (part.getItem() == ModItems.part_carbon) {
-			if(item.getItem() == ModItems.sulfur)
+			if(mODE(item, "dustSulfur"))
 				return new ItemStack(ModItems.powder_iron, 1);
 			if(item.getItem() == ModItems.niter)
 				return new ItemStack(ModItems.powder_aluminium, 1);
 			if(item.getItem() == ModItems.fluorite)
 				return new ItemStack(ModItems.sulfur, 1);
-			if(item.getItem() == ModItems.powder_coal)
+			if(mODE(item, "dustCoal"))
 				return new ItemStack(ModItems.powder_aluminium, 1);
-			if(item.getItem() == ModItems.powder_iron)
+			if(mODE(item, "dustIron"))
 				return new ItemStack(ModItems.powder_bromine, 1);
-			if(item.getItem() == ModItems.powder_gold)
+			if(mODE(item, "dustGold"))
 				return new ItemStack(ModItems.powder_astatine, 1);
-			if(item.getItem() == ModItems.powder_quartz)
+			if(mODE(item, "dustNetherQuartz"))
 				return new ItemStack(ModItems.powder_iron, 1);
 			if(item.getItem() == ModItems.powder_plutonium)
 				return new ItemStack(ModItems.powder_tennessine, 1);
 			if(item.getItem() == ModItems.powder_neptunium)
 				return new ItemStack(ModItems.powder_tennessine, 1);
-			if(item.getItem() == ModItems.powder_titanium)
+			if(mODE(item, "dustTitanium"))
 				return new ItemStack(ModItems.powder_bromine, 1);
-			if(item.getItem() == ModItems.powder_copper)
+			if(mODE(item, "dustCopper"))
 				return new ItemStack(ModItems.powder_strontium, 1);
-			if(item.getItem() == ModItems.powder_tungsten)
+			if(mODE(item, "dustTungsten"))
 				return new ItemStack(ModItems.powder_lead, 1);
-			if(item.getItem() == ModItems.powder_aluminium)
+			if(mODE(item, "dustAluminum"))
 				return new ItemStack(ModItems.powder_titanium, 1);
-			if(item.getItem() == ModItems.powder_lead)
+			if(mODE(item, "dustLead"))
 				return new ItemStack(ModItems.powder_thorium, 1);
-			if(item.getItem() == ModItems.powder_beryllium)
+			if(mODE(item, "dustBeryllium"))
 				return new ItemStack(ModItems.fluorite, 1);
-			if(item.getItem() == ModItems.powder_lithium)
+			if(mODE(item, "dustLithium"))
 				return new ItemStack(ModItems.fluorite, 1);
 			if(item.getItem() == ModItems.powder_iodine)
 				return new ItemStack(ModItems.powder_tungsten, 1);
@@ -649,7 +654,7 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.powder_verticium, 1);
 			if(item.getItem() == ModItems.powder_strontium)
 				return new ItemStack(ModItems.powder_iodine, 1);
-			if(item.getItem() == ModItems.powder_cobalt)
+			if(mODE(item, "dustCobalt"))
 				return new ItemStack(ModItems.powder_strontium, 1);
 			if(item.getItem() == ModItems.powder_bromine)
 				return new ItemStack(ModItems.powder_niobium, 1);
@@ -663,35 +668,35 @@ public class MachineRecipes {
 		
 		//COPPER
 		if (part.getItem() == ModItems.part_copper) {
-			if(item.getItem() == ModItems.sulfur)
+			if(mODE(item, "dustSulfur"))
 				return new ItemStack(ModItems.powder_bromine, 1);
 			if(item.getItem() == ModItems.niter)
 				return new ItemStack(ModItems.powder_cobalt, 1);
 			if(item.getItem() == ModItems.fluorite)
 				return new ItemStack(ModItems.powder_iron, 1);
-			if(item.getItem() == ModItems.powder_coal)
+			if(mODE(item, "dustCoal"))
 				return new ItemStack(ModItems.powder_iron, 1);
-			if(item.getItem() == ModItems.powder_iron)
+			if(mODE(item, "dustIron"))
 				return new ItemStack(ModItems.powder_niobium, 1);
-			if(item.getItem() == ModItems.powder_gold)
+			if(mODE(item, "dustGold"))
 				return new ItemStack(ModItems.powder_lanthanium, 1);
-			if(item.getItem() == ModItems.powder_quartz)
+			if(mODE(item, "dustNetherQuartz"))
 				return new ItemStack(ModItems.powder_bromine, 1);
-			if(item.getItem() == ModItems.powder_uranium)
+			if(mODE(item, "dustUranium"))
 				return new ItemStack(ModItems.powder_tennessine, 1);
-			if(item.getItem() == ModItems.powder_titanium)
+			if(mODE(item, "dustTitanium"))
 				return new ItemStack(ModItems.powder_strontium, 1);
-			if(item.getItem() == ModItems.powder_copper)
+			if(mODE(item, "dustCopper"))
 				return new ItemStack(ModItems.powder_niobium, 1);
-			if(item.getItem() == ModItems.powder_tungsten)
+			if(mODE(item, "dustTungsten"))
 				return new ItemStack(ModItems.powder_actinium, 1);
-			if(item.getItem() == ModItems.powder_aluminium)
+			if(mODE(item, "dustAluminum"))
 				return new ItemStack(ModItems.powder_bromine, 1);
-			if(item.getItem() == ModItems.powder_lead)
+			if(mODE(item, "dustLead"))
 				return new ItemStack(ModItems.powder_tennessine, 1);
-			if(item.getItem() == ModItems.powder_beryllium)
+			if(mODE(item, "dustBeryllium"))
 				return new ItemStack(ModItems.powder_bromine, 1);
-			if(item.getItem() == ModItems.powder_lithium)
+			if(mODE(item, "dustLithium"))
 				return new ItemStack(ModItems.powder_bromine, 1);
 			if(item.getItem() == ModItems.powder_iodine)
 				return new ItemStack(ModItems.powder_astatine, 1);
@@ -705,7 +710,7 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.powder_tungsten, 1);
 			if(item.getItem() == ModItems.powder_verticium)
 				return new ItemStack(ModItems.powder_unobtainium, 1);
-			if(item.getItem() == ModItems.powder_cobalt)
+			if(mODE(item, "dustCobalt"))
 				return new ItemStack(ModItems.powder_iodine, 1);
 			if(item.getItem() == ModItems.powder_bromine)
 				return new ItemStack(ModItems.powder_caesium, 1);
@@ -723,7 +728,7 @@ public class MachineRecipes {
 		
 		//PLUTONIUM
 		if (part.getItem() == ModItems.part_plutonium) {
-			if(item.getItem() == ModItems.powder_uranium)
+			if(mODE(item, "dustUranium"))
 				return new ItemStack(ModItems.powder_schrabidium, 1);
 			if(item.getItem() == ModItems.powder_plutonium)
 				return new ItemStack(ModItems.powder_schrabidium, 1);
@@ -768,6 +773,8 @@ public class MachineRecipes {
 					getFurnaceOutput(ModItems.ingot_steel, ModItems.ingot_tungsten).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
 					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_cobalt).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite) },
+					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_meteorite).copy());
 		} catch (Exception x) {
 			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
 		}
@@ -1551,6 +1558,8 @@ public class MachineRecipes {
 
 	public ArrayList<ItemStack> getBatteries() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
+		fuels.add(new ItemStack(ModItems.battery_su));
+		fuels.add(new ItemStack(ModItems.battery_su_l));
 		fuels.add(new ItemStack(ModItems.battery_generic));
 		fuels.add(new ItemStack(ModItems.battery_red_cell));
 		fuels.add(new ItemStack(ModItems.battery_red_cell_6));
@@ -1567,6 +1576,9 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell));
 		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell_2));
 		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell_4));
+		fuels.add(new ItemStack(ModItems.battery_spark));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_6));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_25));
 		fuels.add(new ItemStack(ModItems.fusion_core));
 		fuels.add(new ItemStack(ModItems.energy_core));
 		return fuels;
@@ -1683,6 +1695,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.magnet_dee, 3));
 			list.add(new ItemStack(ModItems.plate_steel, 12));
 			list.add(new ItemStack(ModItems.wire_advanced_alloy, 8));
+			list.add(new ItemStack(ModItems.plate_polymer, 24));
 			break;
 		case REACTOR_CORE:
 			list.add(new ItemStack(ModItems.ingot_lead, 4));
@@ -1700,6 +1713,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.coil_copper_torus, 3));
 			list.add(new ItemStack(ModItems.ingot_steel, 3));
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.plate_polymer, 12));
 			break;
 		case GRAVITY_UNIT:
 			list.add(new ItemStack(ModItems.coil_copper, 4));
@@ -1904,7 +1918,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_copper, 1));
 			list.add(new ItemStack(ModItems.wire_red_copper, 6));
 			list.add(new ItemStack(ModItems.powder_gold, 4));
-			list.add(new ItemStack(ModItems.ingot_polymer, 1));
+			list.add(new ItemStack(ModItems.plate_polymer, 1));
 			break;
 		case RTG_PELLET:
 			list.add(new ItemStack(ModItems.nugget_pu238, 5));
@@ -2300,6 +2314,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.coil_tungsten, 10));
 			list.add(new ItemStack(ModItems.wire_red_copper, 8));
 			list.add(new ItemStack(ModItems.circuit_red_copper, 4));
+			list.add(new ItemStack(ModItems.plate_polymer, 8));
 			break;
 		case CHEMPLANT:
 			list.add(new ItemStack(ModItems.ingot_steel, 8));
@@ -2311,6 +2326,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.wire_tungsten, 3));
 			list.add(new ItemStack(ModItems.circuit_copper, 4));
 			list.add(new ItemStack(ModItems.circuit_red_copper, 2));
+			list.add(new ItemStack(ModItems.plate_polymer, 8));
 			break;
 		case TANK:
 			list.add(new ItemStack(ModItems.ingot_steel, 2));
@@ -2335,7 +2351,8 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.turbine_tungsten, 1));
 			list.add(new ItemStack(ModItems.turbine_titanium, 7));
 			list.add(new ItemStack(ModItems.bolt_compound, 8));
-			list.add(new ItemStack(ModItems.ingot_red_copper, 24));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 12));
+			list.add(new ItemStack(ModItems.wire_red_copper, 24));
 			break;
 		case TELEPORTER:
 			list.add(new ItemStack(ModItems.ingot_titanium, 6));
@@ -2347,11 +2364,14 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 4));
 			break;
 		case SCHRABTRANS:
+			list.add(new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
 			list.add(new ItemStack(ModItems.ingot_titanium, 24));
 			list.add(new ItemStack(ModItems.plate_advanced_alloy, 18));
 			list.add(new ItemStack(ModItems.plate_steel, 12));
+			list.add(new ItemStack(ModItems.plate_desh, 6));
+			list.add(new ItemStack(ModItems.plate_polymer, 8));
 			list.add(new ItemStack(ModBlocks.machine_battery, 5));
-			list.add(new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 5));
 			break;
 		case CMB_FURNACE:
 			list.add(new ItemStack(ModItems.ingot_steel, 8));
@@ -2554,7 +2574,7 @@ public class MachineRecipes {
 		case PROTOTYPE:
 			list.add(new ItemStack(ModItems.dysfunctional_reactor, 1));
 			list.add(new ItemStack(ModItems.hull_small_steel, 2));
-			list.add(new ItemStack(ModItems.ingot_euphemium, 3, 34));
+			list.add(new ItemStack(ModItems.ingot_euphemium, 3));
 			list.add(new ItemStack(ModItems.circuit_gold, 2));
 			list.add(new ItemStack(ModItems.wire_gold, 16));
 			break;
@@ -2948,6 +2968,65 @@ public class MachineRecipes {
 		case FLEIJA_PROPELLANT:
 			list.add(new ItemStack(Blocks.tnt, 3));
 			list.add(new ItemStack(ModItems.plate_schrabidium, 8));
+			break;
+		case COMPONENT_LIMITER:
+			list.add(new ItemStack(ModItems.hull_big_steel, 2));
+			list.add(new ItemStack(ModItems.plate_steel, 32));
+			list.add(new ItemStack(ModItems.plate_titanium, 18));
+			list.add(new ItemStack(ModItems.plate_desh, 12));
+			list.add(new ItemStack(ModItems.pipes_steel, 4));
+			list.add(new ItemStack(ModItems.circuit_gold, 8));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 4));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 14));
+			list.add(new ItemStack(ModItems.plate_dalekanium, 5));
+			list.add(new ItemStack(ModItems.powder_magic, 16));
+			list.add(new ItemStack(ModBlocks.fwatz_computer, 3));
+			break;
+		case COMPONENT_EMITTER:
+			list.add(new ItemStack(ModItems.hull_big_steel, 3));
+			list.add(new ItemStack(ModItems.hull_big_titanium, 2));
+			list.add(new ItemStack(ModItems.plate_steel, 32));
+			list.add(new ItemStack(ModItems.plate_lead, 24));
+			list.add(new ItemStack(ModItems.plate_desh, 24));
+			list.add(new ItemStack(ModItems.pipes_steel, 8));
+			list.add(new ItemStack(ModItems.circuit_gold, 12));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 8));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 26));
+			list.add(new ItemStack(ModItems.powder_magic, 48));
+			list.add(new ItemStack(ModBlocks.fwatz_computer, 2));
+			list.add(new ItemStack(ModItems.crystal_xen, 1));
+			break;
+		case AMS_LIMITER:
+			list.add(new ItemStack(ModItems.component_limiter, 5));
+			list.add(new ItemStack(ModItems.plate_steel, 64));
+			list.add(new ItemStack(ModItems.plate_titanium, 128));
+			list.add(new ItemStack(ModItems.plate_dineutronium, 16));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 6));
+			list.add(new ItemStack(ModItems.pipes_steel, 16));
+			list.add(new ItemStack(ModItems.motor, 12));
+			list.add(new ItemStack(ModItems.coil_advanced_torus, 12));
+			list.add(new ItemStack(ModItems.entanglement_kit, 1));
+			break;
+		case AMS_EMITTER:
+			list.add(new ItemStack(ModItems.component_emitter, 16));
+			list.add(new ItemStack(ModItems.plate_steel, 128));
+			list.add(new ItemStack(ModItems.plate_titanium, 192));
+			list.add(new ItemStack(ModItems.plate_dineutronium, 32));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 12));
+			list.add(new ItemStack(ModItems.coil_advanced_torus, 24));
+			list.add(new ItemStack(ModItems.entanglement_kit, 3));
+			list.add(new ItemStack(ModItems.crystal_horn, 1));
+			list.add(new ItemStack(ModBlocks.fwatz_core, 1));
+			break;
+		case RADAR:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.plate_steel, 16));
+			list.add(new ItemStack(ModItems.ingot_polymer, 4));
+			list.add(new ItemStack(ModItems.plate_polymer, 24));
+			list.add(new ItemStack(ModItems.magnetron, 10));
+			list.add(new ItemStack(ModItems.motor, 3));
+			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			list.add(new ItemStack(ModItems.coil_copper, 12));
 			break;
 		default:
 			list.add(new ItemStack(Items.stick));
@@ -3619,6 +3698,21 @@ public class MachineRecipes {
 		case FLEIJA_PROPELLANT:
 			output = new ItemStack(ModItems.fleija_propellant, 1);
 			break;
+		case COMPONENT_LIMITER:
+			output = new ItemStack(ModItems.component_limiter, 1);
+			break;
+		case COMPONENT_EMITTER:
+			output = new ItemStack(ModItems.component_emitter, 1);
+			break;
+		case AMS_LIMITER:
+			output = new ItemStack(ModBlocks.ams_limiter, 1);
+			break;
+		case AMS_EMITTER:
+			output = new ItemStack(ModBlocks.ams_emitter, 1);
+			break;
+		case RADAR:
+			output = new ItemStack(ModBlocks.machine_radar, 1);
+			break;
 		default:
 			output = new ItemStack(Items.stick, 1);
 			break;
@@ -3766,13 +3860,13 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
 			list.add(new ItemStack(ModItems.wire_gold, 6));
 			list.add(new ItemStack(ModItems.powder_lapis, 4));
-			list.add(new ItemStack(ModItems.ingot_desh, 1));
+			list.add(new ItemStack(ModItems.ingot_polymer, 1));
 			break;
         case CIRCUIT_5:
 			list.add(new ItemStack(ModItems.circuit_gold, 1));
 			list.add(new ItemStack(ModItems.wire_schrabidium, 6));
 			list.add(new ItemStack(ModItems.powder_diamond, 4));
-			list.add(new ItemStack(ModItems.powder_power, 1));
+			list.add(new ItemStack(ModItems.ingot_desh, 1));
 			break;
         case POLYMER:
 			list.add(new ItemStack(Items.coal, 2));
@@ -3784,8 +3878,12 @@ public class MachineRecipes {
         case BP_BIOGAS:
 			list.add(new ItemStack(ModItems.biomass, 16));
 			break;
-        case UF6:
+        case YELLOWCAKE:
 			list.add(new ItemStack(ModItems.powder_uranium, 1));
+			list.add(new ItemStack(ModItems.sulfur, 2));
+			break;
+        case UF6:
+			list.add(new ItemStack(ModItems.powder_yellowcake, 1));
 			list.add(new ItemStack(ModItems.fluorite, 3));
 			break;
         case PUF6:
@@ -3798,6 +3896,25 @@ public class MachineRecipes {
 			break;
         case NITAN:
 			list.add(new ItemStack(ModItems.powder_nitan_mix, 2));
+			break;
+        case OIL_SAND:
+			list.add(new ItemStack(ModBlocks.ore_oil_sand, 16));
+			break;
+        case DYN_SCHRAB:
+			list.add(new ItemStack(ModItems.dynosphere_desh_charged, 3));
+			list.add(new ItemStack(ModItems.ingot_uranium, 1));
+			list.add(new ItemStack(ModItems.catalyst_clay, 8));
+			break;
+        case DYN_EUPH:
+			list.add(new ItemStack(ModItems.dynosphere_schrabidium_charged, 1));
+			list.add(new ItemStack(ModItems.ingot_plutonium, 1));
+			list.add(new ItemStack(ModItems.catalyst_clay, 16));
+			break;
+        case DYN_DNT:
+			list.add(new ItemStack(ModItems.dynosphere_euphemium_charged, 2));
+			list.add(new ItemStack(ModItems.powder_spark_mix, 1));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 1));
+			list.add(new ItemStack(ModItems.catalyst_clay, 32));
 			break;
 		default:
 			break;
@@ -3835,6 +3952,10 @@ public class MachineRecipes {
         case FR_PETROIL:
 			input[0] = new FluidStack(800, FluidType.RECLAIMED);
 			input[1] = new FluidStack(200, FluidType.LUBRICANT);
+			break;
+        case FC_BITUMEN:
+			input[0] = new FluidStack(1200, FluidType.BITUMEN);
+			input[1] = new FluidStack(2400, FluidType.STEAM);
 			break;
         case FC_I_NAPHTHA:
 			input[0] = new FluidStack(1400, FluidType.SMEAR);
@@ -3949,6 +4070,9 @@ public class MachineRecipes {
         case BP_BIOFUEL:
 			input[0] = new FluidStack(2000, FluidType.BIOGAS);
         	break;
+        case YELLOWCAKE:
+			input[0] = new FluidStack(500, FluidType.ACID);
+        	break;
         case UF6:
 			input[0] = new FluidStack(1000, FluidType.WATER);
         	break;
@@ -3960,6 +4084,9 @@ public class MachineRecipes {
         	break;
         case NITAN:
 			input[0] = new FluidStack(600, FluidType.KEROSENE);
+        	break;
+        case OIL_SAND:
+			input[0] = new FluidStack(400, FluidType.BITUMEN);
         	break;
 		default:
 			break;
@@ -4054,6 +4181,18 @@ public class MachineRecipes {
         case POLYMER:
 			output[0] = new ItemStack(ModItems.ingot_polymer, 1);
         	break;
+        case YELLOWCAKE:
+			output[0] = new ItemStack(ModItems.powder_yellowcake, 1);
+        	break;
+        case DYN_SCHRAB:
+			output[0] = new ItemStack(ModItems.ingot_schrabidium, 1);
+        	break;
+        case DYN_EUPH:
+			output[0] = new ItemStack(ModItems.ingot_euphemium, 1);
+        	break;
+        case DYN_DNT:
+			output[0] = new ItemStack(ModItems.ingot_dineutronium, 1);
+        	break;
 		default:
 			break;
 		}
@@ -4091,6 +4230,10 @@ public class MachineRecipes {
         case FR_PETROIL:
 			input[0] = new FluidStack(1000, FluidType.PETROIL);
 			break;
+        case FC_BITUMEN:
+			input[0] = new FluidStack(1000, FluidType.OIL);
+			input[1] = new FluidStack(200, FluidType.PETROLEUM);
+			break;
         case FC_I_NAPHTHA:
 			input[0] = new FluidStack(800, FluidType.NAPHTHA);
 			break;
@@ -4110,7 +4253,7 @@ public class MachineRecipes {
 			input[0] = new FluidStack(800, FluidType.SMEAR);
 			break;
         case CC_HEATING:
-			input[0] = new FluidStack(800, FluidType.HEATINGOIL);
+			input[0] = new FluidStack(1800, FluidType.HEATINGOIL);
 			break;
         case CC_HEAVY:
 			input[0] = new FluidStack(1800, FluidType.HEAVYOIL);
@@ -4147,6 +4290,18 @@ public class MachineRecipes {
         	break;
         case NITAN:
 			input[0] = new FluidStack(1000, FluidType.NITAN);
+        	break;
+        case OIL_SAND:
+			input[0] = new FluidStack(1000, FluidType.BITUMEN);
+        	break;
+        case DYN_SCHRAB:
+			input[0] = new FluidStack(50, FluidType.WATZ);
+        	break;
+        case DYN_EUPH:
+			input[0] = new FluidStack(100, FluidType.WATZ);
+        	break;
+        case DYN_DNT:
+			input[0] = new FluidStack(150, FluidType.WATZ);
         	break;
 		default:
 			break;

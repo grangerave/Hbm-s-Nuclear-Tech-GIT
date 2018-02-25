@@ -29,7 +29,8 @@
 
 	"weapon.tauShoot": {"category": "player", "sounds": [{"name": "weapon/tauShoot", "stream": false}]},
 	"weapon.tauChargeLoop2": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop2", "stream": true}]},
-	"weapon.revolverShoot": {"category": "player", "sounds": [{"name": "weapon/revolverShoot", "stream": false}]},
+    "weapon.revolverShoot": {"category": "player", "sounds": [{"name": "weapon/revolverShoot", "stream": false}]},
+    "weapon.revolverShootAlt": {"category": "player", "sounds": [{"name": "weapon/revolverShootAlt", "stream": false}]},
 	"weapon.heavyShoot": {"category": "player", "sounds": [{"name": "weapon/heavyShoot", "stream": false}]},
 	"weapon.shotgunShoot": {"category": "player", "sounds": [{"name": "weapon/shotgunShoot", "stream": false}]},
 	"weapon.schrabidiumShoot": {"category": "player", "sounds": [{"name": "weapon/schrabidiumShoot", "stream": false}]},
@@ -51,6 +52,10 @@
 	"weapon.defabShoot": {"category": "player", "sounds": [{"name": "weapon/defabShoot", "stream": false}]},
 	"weapon.sparkShoot": {"category": "player", "sounds": ["weapon/sparkShoot1", "weapon/sparkShoot2", "weapon/sparkShoot3"]},
     "weapon.bang": {"category": "player", "sounds": [{"name": "weapon/bang", "stream": false}]},
+    "weapon.leverActionReload": {"category": "player", "sounds": [{"name": "weapon/leverActionReload", "stream": false}]},
+    "weapon.b92Reload": {"category": "player", "sounds": [{"name": "weapon/b92Reload", "stream": false}]},
+    "weapon.stingerLockOn": {"category": "player", "sounds": [{"name": "weapon/stingerLockOn", "stream": false}]},
+    "weapon.sawShoot": {"category": "player", "sounds": [{"name": "weapon/sawShoot", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},
@@ -62,5 +67,17 @@
 	"entity.chopperDamage": {"category": "hostile", "sounds": [{"name": "entity/chopperDamage", "stream": true}]},
 	"entity.chopperMineLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperMineLoop", "stream": false}]},
 	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]},
-	"entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]}
+    "entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]},
+    
+    "alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
+    "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},
+    "alarm.apcPass": {"category": "record", "sounds": [{"name": "alarm/apcPass", "stream": false}]},
+    "alarm.bankAlarm": {"category": "record", "sounds": [{"name": "alarm/bankAlarm", "stream": false}]},
+    "alarm.beepSiren": {"category": "record", "sounds": [{"name": "alarm/beepSiren", "stream": false}]},
+    "alarm.autopilot": {"category": "record", "sounds": [{"name": "alarm/boeing707AutopilotDisconnected", "stream": false}]},
+    "alarm.containerAlarm": {"category": "record", "sounds": [{"name": "alarm/containerAlarm", "stream": false}]},
+    "alarm.hatch": {"category": "record", "sounds": [{"name": "alarm/lpfhaiwg", "stream": false}]},
+    "alarm.razortrainHorn": {"category": "record", "sounds": [{"name": "alarm/razortrainHorn", "stream": false}]},
+    "alarm.sweepSiren": {"category": "record", "sounds": [{"name": "alarm/sweepSiren", "stream": false}]},
+    "alarm.trainHorn": {"category": "record", "sounds": [{"name": "alarm/trainHorn", "stream": false}]}
 }

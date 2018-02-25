@@ -62,6 +62,7 @@ public class Library {
 	public static String Dafnik = "3af1c262-61c0-4b12-a4cb-424cc3a9c8c0";
 	public static String a20 = "4729b498-a81c-42fd-8acd-20d6d9f759e0";
 	public static String LordVertice = "a41df45e-13d8-4677-9398-090d3882b74f";
+	public static String CodeRed_ = "912ec334-e920-4dd7-8338-4d9b2d42e0a1";
 	
 	public static List<String> superuser = new ArrayList<String>();
 	
@@ -289,7 +290,11 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_radgen)
 		{
 			return true;
 		}
@@ -321,7 +326,10 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.watz_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch)
+				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base)
 		{
 			return true;
 		}
@@ -496,6 +504,42 @@ public class Library {
 		return list;
 	}
 	
+	public static String getShortNumber(long l) {
+
+		if(l >= Math.pow(10, 18)) {
+			double res = l / Math.pow(10, 18);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "E";
+		}
+		if(l >= Math.pow(10, 15)) {
+			double res = l / Math.pow(10, 15);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "P";
+		}
+		if(l >= Math.pow(10, 12)) {
+			double res = l / Math.pow(10, 12);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "T";
+		}
+		if(l >= Math.pow(10, 9)) {
+			double res = l / Math.pow(10, 9);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "G";
+		}
+		if(l >= Math.pow(10, 6)) {
+			double res = l / Math.pow(10, 6);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "M";
+		}
+		if(l >= Math.pow(10, 3)) {
+			double res = l / Math.pow(10, 3);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "k";
+		}
+		
+		return Long.toString(l);
+	}
+	
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
@@ -569,26 +613,70 @@ public class Library {
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
 
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_2 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_4 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+
+		for(int i = 0; i < 20000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 20000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_6 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 20000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_25 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+
+		for(int i = 0; i < 100; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 1000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 100000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
@@ -635,6 +723,15 @@ public class Library {
 				power -= 1;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
+
+		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
+		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
+		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
+		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		
 		return power;
 	}
@@ -649,6 +746,17 @@ public class Library {
 		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite)
 		{
 			return maxPower;
+		}
+
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_su && ItemBattery.getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+		}
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_su_l && ItemBattery.getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 		}
 
 		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ItemBattery.getCharge(slots[index]) > 0)
@@ -722,26 +830,45 @@ public class Library {
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
 
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_2 && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_4 && ItemBattery.getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+
+		for(int i = 0; i < 20000; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark && ItemBattery.getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 20000; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_6 && ItemBattery.getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 20000; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_25 && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
@@ -1055,6 +1182,11 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
+		//AMS Base
+		if(block == ModBlocks.dummy_port_ams_base)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
 		
 		if(tileentity == that)
 			tileentity = null;
@@ -1248,5 +1380,13 @@ public class Library {
 				return true;
 		
 		return false;
+	}
+	
+	public static int getFirstNullIndex(int start, Object[] array) {
+		for(int i = start; i < array.length; i++) {
+			if(array[i] == null)
+				return i;
+		}
+		return -1;
 	}
 }

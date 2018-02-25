@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -294,6 +296,12 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("DEAL WITH IT carefully.");
 		}
 		
+		if(this == ModItems.powder_euphemium)
+		{
+			list.add("Pulverized pink.");
+			list.add("Tastes like strawberries.");
+		}
+		
 		if(this == ModItems.watch)
 		{
 			list.add("A small blue pocket watch.");
@@ -553,27 +561,83 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Enables dimension-shifting via");
 			list.add("beryllium-enhanced resource scanner.");
 		}
+		
+		if(this == ModItems.ams_focus_limiter)
+		{
+			list.add("Maximum performance for restriction field:");
+			list.add("Standard cooling, no energy bonus.");
+		}
+		
+		if(this == ModItems.ams_focus_booster)
+		{
+			list.add("Weaker restriction field and core energy injection:");
+			list.add("More heat generation, extra energy.");
+		}
+		
+		if(this == ModItems.ams_muzzle)
+		{
+			list.add("...it emits an energy-beam thingy.");
+		}
 	}
 
     @Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-    	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || this == ModItems.rod_quad_euphemium || this == ModItems.plate_euphemium || this == ModItems.watch || this == ModItems.powder_iodine || this == ModItems.powder_thorium || this == ModItems.powder_neodymium || this == ModItems.powder_neptunium || this == ModItems.powder_astatine || this == ModItems.powder_caesium || this == ModItems.powder_strontium || this == ModItems.powder_cobalt || this == ModItems.powder_bromine || this == ModItems.powder_niobium || this == ModItems.powder_tennessine || this == ModItems.powder_cerium)
+    	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || 
+    			this == ModItems.rod_quad_euphemium || this == ModItems.plate_euphemium || 
+    			this == ModItems.watch || this == ModItems.powder_iodine || 
+    			this == ModItems.powder_thorium || this == ModItems.powder_neodymium || 
+    			this == ModItems.powder_neptunium || this == ModItems.powder_astatine || 
+    			this == ModItems.powder_caesium || this == ModItems.powder_strontium || 
+    			this == ModItems.powder_cobalt || this == ModItems.powder_bromine || 
+    			this == ModItems.powder_niobium || this == ModItems.powder_tennessine || 
+    			this == ModItems.powder_cerium || this == ModItems.powder_euphemium)
     	{
     		return EnumRarity.epic;
     	}
     	
-    	if(this == ModItems.rod_schrabidium || this == ModItems.rod_dual_schrabidium || this == ModItems.rod_quad_schrabidium || this == ModItems.ingot_schrabidium || this == ModItems.nugget_schrabidium || this == ModItems.plate_schrabidium || this == ModItems.cell_sas3 || this == ModItems.powder_schrabidium || this == ModItems.wire_schrabidium || this == ModItems.circuit_schrabidium || this == ModItems.gun_revolver_schrabidium_ammo)
+    	if(this == ModItems.rod_schrabidium || this == ModItems.rod_dual_schrabidium || 
+    			this == ModItems.rod_quad_schrabidium || this == ModItems.ingot_schrabidium || 
+    			this == ModItems.nugget_schrabidium || this == ModItems.plate_schrabidium || 
+    			this == ModItems.cell_sas3 || this == ModItems.powder_schrabidium || 
+    			this == ModItems.wire_schrabidium || this == ModItems.circuit_schrabidium || 
+    			this == ModItems.gun_revolver_schrabidium_ammo)
     	{
     		return EnumRarity.rare;
     	}
     	
-    	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || this == ModItems.gun_mp_ammo || this == ModItems.powder_power || this == ModItems.ingot_australium || this == ModItems.ingot_weidanium || this == ModItems.ingot_reiium || this == ModItems.ingot_unobtainium || this == ModItems.ingot_daffergon || this == ModItems.ingot_verticium || this == ModItems.nugget_australium || this == ModItems.nugget_weidanium || this == ModItems.nugget_reiium || this == ModItems.nugget_unobtainium || this == ModItems.nugget_daffergon || this == ModItems.nugget_verticium || this == ModItems.powder_australium || this == ModItems.powder_weidanium || this == ModItems.powder_reiium || this == ModItems.powder_unobtainium || this == ModItems.powder_daffergon || this == ModItems.powder_verticium)
+    	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || 
+    			this == ModItems.gun_mp_ammo || this == ModItems.powder_power || 
+    			this == ModItems.ingot_australium || this == ModItems.ingot_weidanium || 
+    			this == ModItems.ingot_reiium || this == ModItems.ingot_unobtainium || 
+    			this == ModItems.ingot_daffergon || this == ModItems.ingot_verticium || 
+    			this == ModItems.nugget_australium || this == ModItems.nugget_weidanium || 
+    			this == ModItems.nugget_reiium || this == ModItems.nugget_unobtainium || 
+    			this == ModItems.nugget_daffergon || this == ModItems.nugget_verticium || 
+    			this == ModItems.powder_australium || this == ModItems.powder_weidanium || 
+    			this == ModItems.powder_reiium || this == ModItems.powder_unobtainium || 
+    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium)
     	{
     		return EnumRarity.uncommon;
     	}
     	
 		return EnumRarity.common;
+    }
+
+    @Override
+	@SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack p_77636_1_)
+    {
+    	if(this == ModItems.rune_isa ||
+    			this == ModItems.rune_dagaz ||
+    			this == ModItems.rune_hagalaz ||
+    			this == ModItems.rune_jera ||
+    			this == ModItems.rune_thurisaz)
+    	{
+    		return true;
+    	}
+    	
+    	return false;
     }
 
 }

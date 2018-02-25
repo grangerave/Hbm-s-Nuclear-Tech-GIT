@@ -5,13 +5,20 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -27,7 +34,7 @@ public class Meteorite {
 			e.attackEntityFrom(ModDamageSource.meteorite, 1000);
 		}
 		
-		switch(rand.nextInt(500)) {
+		switch(rand.nextInt(300)) {
 		case 0:
 			//Meteor-only tiny meteorite
 			List<ItemStack> list0 = new ArrayList<ItemStack>();
@@ -92,6 +99,54 @@ public class Meteorite {
 			list8.add(new ItemStack(ModBlocks.toxic_block));
 			generateSphere7x7(world, rand, x, y, z, list7);
 			generateSphere5x5(world, rand, x, y, z, list8);
+			return;
+		case 9:
+			//Giant ore meteorite
+			List<ItemStack> list9 = new ArrayList<ItemStack>();
+			list9.add(new ItemStack(ModBlocks.block_meteor_broken));
+			generateSphere9x9(world, rand, x, y, z, list9);
+			generateSphere7x7(world, rand, x, y, z, this.getRandomOre(rand));
+			return;
+		case 10:
+			//Tainted Meteorite
+			List<ItemStack> list10 = new ArrayList<ItemStack>();
+			list10.add(new ItemStack(ModBlocks.block_meteor_broken));
+			generateSphere5x5(world, rand, x, y, z, list10);
+			world.setBlock(x, y, z, ModBlocks.taint);
+			return;
+		case 11:
+			//Atomic meteorite
+    		EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(world);
+    	    entity0.posX = x + 0.5D;
+    	    entity0.posY = y + 0.5D;
+    	    entity0.posZ = z + 0.5D;
+    	    entity0.destructionRange = MainRegistry.fatmanRadius;
+    	    entity0.speed = MainRegistry.blastSpeed;
+    	    entity0.coefficient = 10.0F;
+    	    	
+    	    world.spawnEntityInWorld(entity0);
+    	    if(MainRegistry.polaroidID == 11)
+    	    	if(rand.nextInt(100) >= 0)
+    	    	{
+    	    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
+    	    	} else {
+    	    		ExplosionParticle.spawnMush(world, x, y - 3, z);
+    	    	}
+    	    else
+    	    	if(rand.nextInt(100) == 0)
+    	    	{
+    	    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
+    	    	} else {
+    	    		ExplosionParticle.spawnMush(world, x, y - 3, z);
+    	    	}
+			return;
+		case 12:
+			//Star Blaster
+			world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 10F, true);
+			ItemStack stack = new ItemStack(ModItems.gun_b92);
+			stack.setStackDisplayName("§9Star Blaster§r");
+			EntityItem blaster = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack);
+			world.spawnEntityInWorld(blaster);
 			return;
 		}
 		
@@ -538,6 +593,65 @@ public class Meteorite {
 		for(int a = -1; a < 2; a++)
 			for(int b = -1; b < 2; b++)
 				for(int c = -2; c < 3; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+	}
+	
+	public void generateSphere9x9(World world, Random rand, int x, int y, int z, List<ItemStack> set) {
+		for(int a = -4; a < 5; a++)
+			for(int b = -1; b < 2; b++)
+				for(int c = -1; c < 2; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+		for(int a = -1; a < 2; a++)
+			for(int b = -4; b < 5; b++)
+				for(int c = -1; c < 2; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+		for(int a = -1; a < 2; a++)
+			for(int b = -1; b < 2; b++)
+				for(int c = -4; c < 5; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+		
+		for(int a = -1; a < 2; a++)
+			for(int b = -3; b < 4; b++)
+				for(int c = -3; c < 4; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+		for(int a = -3; a < 4; a++)
+			for(int b = -1; b < 2; b++)
+				for(int c = -3; c < 4; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+		for(int a = -3; a < 4; a++)
+			for(int b = -3; b < 4; b++)
+				for(int c = -1; c < 2; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+
+		for(int a = -3; a < 4; a++)
+			for(int b = -2; b < 3; b++)
+				for(int c = -2; c < 3; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+		for(int a = -2; a < 3; a++)
+			for(int b = -3; b < 4; b++)
+				for(int c = -2; c < 3; c++) {
+					ItemStack stack = set.get(rand.nextInt(set.size()));
+					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
+				}
+		for(int a = -2; a < 3; a++)
+			for(int b = -2; b < 3; b++)
+				for(int c = -3; c < 4; c++) {
 					ItemStack stack = set.get(rand.nextInt(set.size()));
 					world.setBlock(x + a, y + b, z + c, Block.getBlockFromItem(stack.getItem()), stack.getItemDamage(), 2);
 				}

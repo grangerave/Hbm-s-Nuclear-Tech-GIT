@@ -2,6 +2,7 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.tileentity.bomb.TileEntityTurretCWIS;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
@@ -65,11 +66,17 @@ public class AuxGaugePacket implements IMessage {
 
 				if (te instanceof TileEntityAMSLimiter) {
 					TileEntityAMSLimiter limiter = (TileEntityAMSLimiter)te;
-					limiter.locked = m.value == 1;
+					if(m.id == 0)
+						limiter.locked = m.value == 1;
+					else if(m.id == 1)
+						limiter.efficiency = m.value;
 				}
 				if (te instanceof TileEntityAMSEmitter) {
 					TileEntityAMSEmitter emitter = (TileEntityAMSEmitter)te;
-					emitter.locked = m.value == 1;
+					if(m.id == 0)
+						emitter.locked = m.value == 1;
+					else if(m.id == 1)
+						emitter.efficiency = m.value;
 				}
 				if (te instanceof TileEntityAMSBase) {
 					TileEntityAMSBase base = (TileEntityAMSBase)te;
@@ -78,6 +85,15 @@ public class AuxGaugePacket implements IMessage {
 						base.locked = m.value == 1;
 					else if(m.id == 1)
 						base.color = m.value;
+					else if(m.id == 2)
+						base.efficiency = m.value;
+					else if(m.id == 3)
+						base.field = m.value;
+				}
+				if (te instanceof TileEntityTurretCWIS) {
+					TileEntityTurretCWIS cwis = (TileEntityTurretCWIS)te;
+					
+					cwis.rotation = m.value;
 				}
 				
 			} catch (Exception x) { }

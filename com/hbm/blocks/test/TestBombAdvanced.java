@@ -1,6 +1,8 @@
 package com.hbm.blocks.test;
 
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 
 import cpw.mods.fml.relauncher.Side;
@@ -107,7 +109,7 @@ public class TestBombAdvanced extends BlockContainer {
 	
 	public void explode(World world, int x, int y, int z, int bombStartStrength, int bombStrengthA)
 	{
-		int r = bombStartStrength; //radius of explosion (change this to bigger numbers for more epicness)
+		/*int r = bombStartStrength; //radius of explosion (change this to bigger numbers for more epicness)
 		int r2 = r*r; //radius^2, for faster distance checks. (No sqrt needed for pythagoras)
 		int r22 = r2/2; //half of r^2, calculations outside the loop only get called once. Always pull out as many things from the loop as possible.
 		for (int xx = -r; xx < r; xx++)
@@ -129,6 +131,9 @@ public class TestBombAdvanced extends BlockContainer {
 					} //you can change the if statement to if (ZZ<r2) for a smoother explosion crater.
 				}
 			}
-		}
+		}*/
+		
+		world.setBlock(x, y, z, Blocks.air);
+		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.x * 20, x, y, z));
 	}
 }

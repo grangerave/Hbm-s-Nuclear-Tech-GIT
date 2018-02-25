@@ -34,7 +34,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	private ItemStack slots[];
 
 	public long power = 0;
-	public static final long maxPower = 1000000;
+	public static final long maxPower = 10000000;
 	public int efficiency = 0;
 	public static final int maxEfficiency = 100;
 	public int heat = 0;
@@ -302,8 +302,15 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 				if(slots[2] != null) {
 					if(slots[2].getItem() == ModItems.ams_focus_limiter)
 						mode = 1;
-					if(slots[2].getItem() == ModItems.ams_focus_booster)
+					else if(slots[2].getItem() == ModItems.ams_focus_booster)
 						mode = 2;
+					else {
+						this.efficiency = 0;
+						this.warning = 2;
+					}
+				} else {
+					this.efficiency = 0;
+					this.warning = 2;
 				}
 				
 				if(tank.getFill() <= 5 || heat > maxHeat * 0.9)
@@ -312,8 +319,10 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 				if(heat > maxHeat) {
 					heat = maxHeat;
 					locked = true;
-					ExplosionLarge.spawnShock(worldObj, xCoord, yCoord, zCoord, 24, 3);
-					ExplosionLarge.spawnBurst(worldObj, xCoord, yCoord, zCoord, 24, 3);
+					ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 24, 3);
+					ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 24, 3);
+		            this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.oldExplosion", 10.0F, 1);
+			        this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.shutdown", 10.0F, 1.0F);
 				}
 	
 				power = Library.chargeTEFromItems(slots, 3, power, maxPower);
@@ -339,6 +348,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, efficiency, 1));
 		}
 	}
 	

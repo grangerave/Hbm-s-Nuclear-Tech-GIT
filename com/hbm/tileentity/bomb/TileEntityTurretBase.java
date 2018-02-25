@@ -1,6 +1,7 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.bomb.TurretBase;
+import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.lib.Library;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -37,6 +38,10 @@ public abstract class TileEntityTurretBase extends TileEntity {
 			double radius = 1000;
 			if(this instanceof TileEntityTurretFlamer)
 				radius /= 2;
+			if(this instanceof TileEntityTurretSpitfire)
+				radius *= 3;
+			if(this instanceof TileEntityTurretCWIS)
+				radius *= 100;
 			Entity target = null;
 			for (int i = 0; i < iter.length; i++)
 			{
@@ -53,7 +58,13 @@ public abstract class TileEntityTurretBase extends TileEntity {
 			}
 
 			if(target != null) {
+
 				Vec3 turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1), target.posZ - (zCoord + 0.5));
+				
+				if(this instanceof TileEntityTurretCWIS || this instanceof TileEntityTurretSpitfire) {
+					turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1.5), target.posZ - (zCoord + 0.5));
+				}
+				
 				rotationPitch = -Math.asin(turret.yCoord/turret.lengthVector()) * 180 / Math.PI;
 				rotationYaw = -Math.atan2(turret.xCoord, turret.zCoord) * 180 / Math.PI;
 				
@@ -79,13 +90,21 @@ public abstract class TileEntityTurretBase extends TileEntity {
 	}
 	
 	private boolean isInSight(Entity e) {
-		if(!(e instanceof EntityLivingBase))
+		if(!(e instanceof EntityLivingBase) && !(e instanceof EntityMissileBaseAdvanced))
+			return false;
+		
+		if(this instanceof TileEntityTurretCWIS && !(e instanceof EntityMissileBaseAdvanced))
 			return false;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).getUniqueID().toString().equals(uuid))
 			return false;
 		
-		Vec3 turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
+		Vec3 turret;
+		if(this instanceof TileEntityTurretSpitfire || this instanceof TileEntityTurretCWIS)
+			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
+		else
+			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
+		
 		Vec3 entity = Vec3.createVectorHelper(e.posX, e.posY + e.getEyeHeight(), e.posZ);
 		Vec3 side = Vec3.createVectorHelper(entity.xCoord - turret.xCoord, entity.yCoord - turret.yCoord, entity.zCoord - turret.zCoord);
 		side = side.normalize();

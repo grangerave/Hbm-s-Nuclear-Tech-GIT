@@ -66,16 +66,26 @@ public class BlockCrate extends BlockFalling {
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_bf, 0);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_mp40, 7);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_uboinik, 7);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_lever_action, 5);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_bolt_action, 5);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_osipr, 7);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_immolator, 4);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_cryolator, 4);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_mp, 3);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_xvl1456, 5);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_emp, 3);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_defabricator, 3);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_euthanasia, 2);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_hp, 2);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_jack, 2);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_revolver_pip, 3);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_spark, 2);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.clip_stinger, 5);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.grenade_generic, 8);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.grenade_strong, 6);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.grenade_mk2, 4);
     	list1 = BlockCrate.addToListWithWeight(list1, ModItems.grenade_flare, 4);
+    	list1 = BlockCrate.addToListWithWeight(list1, ModItems.ammo_container, 2);
 
     	List<Item> list = new ArrayList<Item>();
     	

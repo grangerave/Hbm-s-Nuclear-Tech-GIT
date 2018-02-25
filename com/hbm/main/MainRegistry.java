@@ -1,15 +1,26 @@
 package com.hbm.main;
 
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.dispenser.BehaviorProjectileDispense;
+import net.minecraft.dispenser.IBehaviorDispenseItem;
+import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.stats.Achievement;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -38,6 +49,7 @@ import com.hbm.creativetabs.NukeTab;
 import com.hbm.creativetabs.PartsTab;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.effect.EntityNukeCloudBig;
@@ -52,6 +64,7 @@ import com.hbm.entity.grenade.EntityGrenadeFire;
 import com.hbm.entity.grenade.EntityGrenadeFlare;
 import com.hbm.entity.grenade.EntityGrenadeFrag;
 import com.hbm.entity.grenade.EntityGrenadeGas;
+import com.hbm.entity.grenade.EntityGrenadeGascan;
 import com.hbm.entity.grenade.EntityGrenadeGeneric;
 import com.hbm.entity.grenade.EntityGrenadeLemon;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
@@ -66,10 +79,13 @@ import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityMinecartTest;
+import com.hbm.entity.logic.EntityMissileTest;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.logic.EntityNukeExplosionPlus;
+import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.missile.EntityBombletSelena;
 import com.hbm.entity.missile.EntityBombletTheta;
 import com.hbm.entity.missile.EntityMIRV;
@@ -91,6 +107,7 @@ import com.hbm.entity.missile.EntityMissileMirv;
 import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
 import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.entity.missile.EntityTestMissile;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -103,11 +120,14 @@ import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
+import com.hbm.entity.projectile.EntityAAShell;
 import com.hbm.entity.projectile.EntityBaleflare;
+import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityDischarge;
+import com.hbm.entity.projectile.EntityExplosiveBeam;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
 import com.hbm.entity.projectile.EntityLaser;
@@ -121,6 +141,7 @@ import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
+import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.entity.projectile.EntityShrapnel;
@@ -137,6 +158,7 @@ import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.PotionEffectTaint;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
 import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
@@ -151,10 +173,12 @@ import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 import com.hbm.tileentity.bomb.TileEntityRedBarrel;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
+import com.hbm.tileentity.bomb.TileEntityTurretCWIS;
 import com.hbm.tileentity.bomb.TileEntityTurretFlamer;
 import com.hbm.tileentity.bomb.TileEntityTurretHeavy;
 import com.hbm.tileentity.bomb.TileEntityTurretLight;
 import com.hbm.tileentity.bomb.TileEntityTurretRocket;
+import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
 import com.hbm.tileentity.bomb.TileEntityTurretTau;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
@@ -171,6 +195,7 @@ import com.hbm.tileentity.deco.TileEntityDecoSteelPoles;
 import com.hbm.tileentity.deco.TileEntityDecoTapeRecorder;
 import com.hbm.tileentity.deco.TileEntityObjTester;
 import com.hbm.tileentity.deco.TileEntityRotationTester;
+import com.hbm.tileentity.deco.TileEntityTaint;
 import com.hbm.tileentity.deco.TileEntityTestContainer;
 import com.hbm.tileentity.deco.TileEntityTestRender;
 import com.hbm.tileentity.deco.TileEntityYellowBarrel;
@@ -209,11 +234,16 @@ import com.hbm.tileentity.machine.TileEntityMachinePress;
 import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
+import com.hbm.tileentity.machine.TileEntityMachineRadGen;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.TileEntityMachineSPP;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
+import com.hbm.tileentity.machine.TileEntityMachineSiren;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
+import com.hbm.tileentity.machine.TileEntityMachineTransformer;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
@@ -238,9 +268,6 @@ public class MainRegistry
 	
 	@SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE)
 	public static ServerProxy proxy;
-	
-	//We'll get to that eventually
-	//public static PacketHandler packetHandler;
 	
 	@Metadata
 	public static ModMetadata meta;
@@ -292,45 +319,53 @@ public class MainRegistry
 	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
 	
 	//Achievements
-	/*public static Achievement achievementGetTitanium;
-	public static Achievement achievementGetCopper;
-	public static Achievement achievementCraftAlloyFurnace;
-	public static Achievement achievementCraftElectricFurnace;
-	public static Achievement achievementCraftDerrick;
-	public static Achievement achievementCraftRefinery;
-	public static Achievement achievementCraftFactoryTitanium;
-	public static Achievement achievementCraftFactoryAdvanced;
-	public static Achievement achievementCraftGeneratorCoal;
-	public static Achievement achievementCraftGeneratorDiesel;
-	public static Achievement achievementCraftGeneratorIndustrial;
-	public static Achievement achievementGetLead;
-	public static Achievement achievementCraftBreedingReactor;
-	public static Achievement achievementCraftAtomicFurnace;
-	public static Achievement achievementCraftCentrifuge;
-	public static Achievement achievementCraftMissile;
-	public static Achievement achievementCraftMIRV;
-	public static Achievement achievementCraftNuclearReactor;
-	public static Achievement achievementCraftRTGFurnace;
-	public static Achievement achievementCraftRTG;
-	public static Achievement achievementCraftReactor;
-	public static Achievement achievementCraftTransmutator;
-	public static Achievement achievementCraftWatz;
-	public static Achievement achievementCraftCMB;
-	public static Achievement achievementCraftTeleporter;
-	public static Achievement achievementCraftFWatz;
-	public static Achievement achievementCraftDeuterium;
-	public static Achievement achievementCraftFusion;
-	public static Achievement achievementCraftCyclotron;
-	public static Achievement achievementCraftNuke;
-	public static Achievement achievementCraftFLEIJA;
-	public static Achievement achievementCraftHammer;
-	public static Achievement achievementCraftOutlaw;
-	public static Achievement achievementGetReiium;
-	public static Achievement achievementGetWeidanium;
-	public static Achievement achievementGetAustalium;
-	public static Achievement achievementGetVerticium;
-	public static Achievement achievementGetUnobtainium;
-	public static Achievement achievementGetDaffergon;*/
+	public static Achievement achCircuit0;
+	public static Achievement achCircuit1;
+	public static Achievement achCircuit2;
+	public static Achievement achCircuit3;
+	public static Achievement achCircuit4;
+	public static Achievement achCircuit5;
+	public static Achievement achJack;
+	public static Achievement achDalekanium;
+	public static Achievement achRefinery;
+	public static Achievement achBattery;
+	public static Achievement achOil;
+	public static Achievement achCatapult1;
+	public static Achievement achCatapult2;
+	public static Achievement achCatapult3;
+	public static Achievement achU235;
+	public static Achievement achPu238;
+	public static Achievement achPu239;
+	public static Achievement achNeptunium;
+	public static Achievement achDesh;
+	public static Achievement achMeteor;
+	public static Achievement achGeiger;
+	public static Achievement achDesignator;
+	public static Achievement achRemote;
+	public static Achievement achOverpowered;
+	public static Achievement achShimSham;
+	public static Achievement achMatchstick;
+	public static Achievement achRails;
+	public static Achievement achFolder;
+	public static Achievement achPress;
+	public static Achievement achFWatz;
+	public static Achievement achTurbofan;
+	public static Achievement achGadget;
+	public static Achievement achBoy;
+	public static Achievement achMan;
+	public static Achievement achMike;
+	public static Achievement achTsar;
+	public static Achievement achFLEIJA;
+	public static Achievement achPrototype;
+	public static Achievement achCustom;
+	public static Achievement achTurret;
+	public static Achievement achMeteorDeath;
+	public static Achievement achXenium;
+	public static Achievement achRadiation;
+	public static Achievement achSchrabidium;
+	public static Achievement achEuphemium;
+	public static Achievement achSacrifice;
+	public static Achievement achImpossible;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -379,10 +414,12 @@ public class MainRegistry
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
-	public static int meteorStrikeChance = 50000;
-	public static int meteorShowerChance = 500;
+	public static int meteorStrikeChance = 20 * 60 * 90;
+	public static int meteorShowerChance = 20 * 60 * 3;
 	public static int meteorShowerDuration = 6000;
-	
+	public static int limitExplosionLifespan = 0;
+
+	public static int generalOverride = 0;
 	public static int polaroidID = 1;
 
 	public static int x;
@@ -397,9 +434,14 @@ public class MainRegistry
 		logger = PreEvent.getModLog();
 		
 		//Reroll Polaroid
-		polaroidID = rand.nextInt(16) + 1;
-		while(polaroidID == 4 || polaroidID == 9)
-			polaroidID = rand.nextInt(16) + 1;
+		
+		if(generalOverride > 0 && generalOverride < 19) {
+			polaroidID = generalOverride;
+		} else {
+			polaroidID = rand.nextInt(18) + 1;
+			while(polaroidID == 4 || polaroidID == 9)
+				polaroidID = rand.nextInt(18) + 1;
+		}
 		
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -524,6 +566,14 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityAMSBase.class, "tileentity_ams_base");
 		GameRegistry.registerTileEntity(TileEntityAMSEmitter.class, "tileentity_ams_emitter");
 		GameRegistry.registerTileEntity(TileEntityAMSLimiter.class, "tileentity_ams_limiter");
+		GameRegistry.registerTileEntity(TileEntityMachineSiren.class, "tileentity_siren");
+		GameRegistry.registerTileEntity(TileEntityTaint.class, "tileentity_taint");
+		GameRegistry.registerTileEntity(TileEntityMachineSPP.class, "tileentity_spp");
+		GameRegistry.registerTileEntity(TileEntityTurretSpitfire.class, "tileentity_turret_spitfire");
+		GameRegistry.registerTileEntity(TileEntityMachineRadGen.class, "tileentity_radgen");
+		GameRegistry.registerTileEntity(TileEntityMachineTransformer.class, "tileentity_transformer");
+		GameRegistry.registerTileEntity(TileEntityTurretCWIS.class, "tileentity_turret_cwis");
+		GameRegistry.registerTileEntity(TileEntityMachineRadar.class, "tileentity_radar");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -611,10 +661,186 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityVortex.class, "entity_vortex", 83, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityMeteor.class, "entity_meteor", 84, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityLaser.class, "entity_laser", 85, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBoxcar.class, "entity_boxcar", 86, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileTaint.class, "entity_missile_taint", 87, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeGascan.class, "entity_grenade_gascan", 88, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityNukeExplosionMK4.class, "entity_nuke_mk4", 89, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityCloudFleijaRainbow.class, "entity_cloud_rainbow", 90, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 91, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityAAShell.class, "entity_aa_shell", 92, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityRocketHoming.class, "entity_stinger", 93, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
+	
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
+			
+	        @Override
+	        public void ticketsLoaded(List<Ticket> tickets, World world) {
+	            for(Ticket ticket : tickets) {
+	            	
+	                if(ticket.getEntity() instanceof IChunkLoader) {
+	                    ((IChunkLoader)ticket.getEntity()).init(ticket);
+	                }
+	            }
+	        }
+	    });
+
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeGeneric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_strong, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeStrong(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_frag, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeFrag(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_fire, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeFire(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_cluster, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeCluster(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_flare, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeFlare(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_electric, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeElectric(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_poison, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadePoison(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_gas, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeGas(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_schrabidium, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeSchrabidium(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_nuke, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeNuke(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_nuclear, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeNuclear(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_pulse, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadePulse(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_plasma, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadePlasma(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_tau, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeTau(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_lemon, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeLemon(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_mk2, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeMk2(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_aschrab, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeASchrab(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_zomg, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeZOMG(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_shrapnel, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeShrapnel(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_black_hole, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeBlackHole(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_gascan, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeGascan(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
 	}
 
 	@EventHandler
@@ -630,6 +856,13 @@ public class MainRegistry
 				achievementCraftBreedingReactor,
 				achievementCraftCentrifuge
 		}));*/
+		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, 0, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
+		achImpossible = new Achievement("achievement.impossible", "impossible", 2, 0, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
+		
+		AchievementPage.registerAchievementPage(new AchievementPage("NTM Achievements", new Achievement[]{ 
+				achSacrifice,
+				achImpossible
+		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
@@ -675,6 +908,8 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
 		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
 		OreDictionary.registerOre("ingotDesh", ModItems.ingot_desh);
+		OreDictionary.registerOre("ingotEuphemium", ModItems.ingot_euphemium);
+		OreDictionary.registerOre("ingotDineutronium", ModItems.ingot_dineutronium);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
@@ -690,6 +925,7 @@ public class MainRegistry
 		OreDictionary.registerOre("nuggetUnobtainium", ModItems.nugget_unobtainium);
 		OreDictionary.registerOre("nuggetDaffergon", ModItems.nugget_daffergon);
 		OreDictionary.registerOre("nuggetVerticium", ModItems.nugget_verticium);
+		OreDictionary.registerOre("nuggetEuphemium", ModItems.nugget_euphemium);
 		OreDictionary.registerOre("tinyU235", ModItems.nugget_u235);
 		OreDictionary.registerOre("tinyU238", ModItems.nugget_u238);
 		OreDictionary.registerOre("tinyPu238", ModItems.nugget_pu238);
@@ -709,6 +945,8 @@ public class MainRegistry
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
 		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
 		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
+		OreDictionary.registerOre("plateEuphemium", ModItems.plate_euphemium);
+		OreDictionary.registerOre("plateDineutronium", ModItems.plate_dineutronium);
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
 		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
@@ -742,6 +980,8 @@ public class MainRegistry
 		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
 		OreDictionary.registerOre("dustActinium", ModItems.powder_actinium);
 		OreDictionary.registerOre("dustDesh", ModItems.powder_desh);
+		OreDictionary.registerOre("dustEuphemium", ModItems.powder_euphemium);
+		OreDictionary.registerOre("dustDineutronium", ModItems.powder_dineutronium);
 
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);
@@ -881,6 +1121,9 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cerium), new ItemStack(ModItems.powder_cerium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
+		recipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
 		
 		recipes.PrintRecipes();
 
@@ -909,6 +1152,7 @@ public class MainRegistry
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_lightoil), new ItemStack(ModItems.canister_empty), FluidType.LIGHTOIL, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_kerosene), new ItemStack(ModItems.canister_empty), FluidType.KEROSENE, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_biofuel), new ItemStack(ModItems.canister_empty), FluidType.BIOFUEL, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_NITAN), new ItemStack(ModItems.canister_empty), FluidType.NITAN, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full), new ItemStack(ModItems.gas_empty), FluidType.GAS, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_petroleum), new ItemStack(ModItems.gas_empty), FluidType.PETROLEUM, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_biogas), new ItemStack(ModItems.gas_empty), FluidType.BIOGAS, 1000));
@@ -925,7 +1169,7 @@ public class MainRegistry
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_anti_schrabidium), new ItemStack(ModItems.cell_empty), FluidType.ASCHRAB, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_sas3), new ItemStack(ModItems.cell_empty), FluidType.SAS3, 1000));
 
-		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), new ItemStack(ModBlocks.ore_oil_empty), FluidType.OIL, 500));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), new ItemStack(ModBlocks.ore_oil_empty), FluidType.OIL, 250));
 
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 1), new ItemStack(ModItems.tank_waste, 1, 0), FluidType.WATZ, 8000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 2), new ItemStack(ModItems.tank_waste, 1, 1), FluidType.WATZ, 8000));
@@ -1033,10 +1277,6 @@ public class MainRegistry
         Property propASchrab = config.get(Configuration.CATEGORY_GENERAL, "3.11_aSchrabRadius", 20);
         propASchrab.comment = "Radius of dropped anti schrabidium";
         aSchrabRadius = propASchrab.getInt();
-        //add blast speed as config
-        Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "Blast Speed", 1024);
-        propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
-        blastSpeed = propBlastSpeed.getInt();
 
         Property propRadio = config.get(Configuration.CATEGORY_GENERAL, "4.00_radioSpawn", 500);
         propRadio.comment = "Spawn radio station on every nTH chunk";
@@ -1084,6 +1324,13 @@ public class MainRegistry
         Property propMeteorShowerDuration = config.get(Configuration.CATEGORY_GENERAL, "5.02_meteorShowerDuration", 6000);
         propMeteorShowerDuration.comment = "Max duration of meteor shower in ticks";
         meteorShowerDuration = propMeteorShowerDuration.getInt();
+
+        Property propLimitExplosionLifespan = config.get(Configuration.CATEGORY_GENERAL, "6.00_limitExplosionLifespan", 0);
+        propLimitExplosionLifespan.comment = "How long an explosion can be unloaded until it dies in seconds. Based of system time. 0 disables the effect";
+        limitExplosionLifespan = propLimitExplosionLifespan.getInt();
+        Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 1024);
+        propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
+        blastSpeed = propBlastSpeed.getInt();
         
         config.save();
 	}

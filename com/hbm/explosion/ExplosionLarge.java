@@ -1,5 +1,6 @@
 package com.hbm.explosion;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.particle.EntityDSmokeFX;
@@ -9,6 +10,9 @@ import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -30,9 +34,21 @@ public class ExplosionLarge {
 		}
 	}
 
+	public static void spawnParticlesRadial(World world, double x, double y, double z, int count) {
+		
+		for(int i = 0; i < count; i++) {
+			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
+			fx.motionY = rand.nextGaussian() * (1 + (count / 50));
+			fx.motionX = rand.nextGaussian() * (1 + (count / 50));
+			fx.motionZ = rand.nextGaussian() * (1 + (count / 50));
+			world.spawnEntityInWorld(fx);
+		}
+	}
+
 	public static void spawnShock(World world, double x, double y, double z, int count, double strength) {
 		
 		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+		vec.rotateAroundY(rand.nextInt(360));
 		
 		for(int i = 0; i < count; i++) {
 			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
@@ -48,6 +64,7 @@ public class ExplosionLarge {
 	public static void spawnBurst(World world, double x, double y, double z, int count, double strength) {
 		
 		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+		vec.rotateAroundY(rand.nextInt(360));
 		
 		for(int i = 0; i < count; i++) {
 			EntityGasFlameFX fx = new EntityGasFlameFX(world, x, y, z, 0.0, 0.0, 0.0);
@@ -102,6 +119,52 @@ public class ExplosionLarge {
 			shrapnel.motionZ = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.25F;
 			shrapnel.setTrail(true);
 			world.spawnEntityInWorld(shrapnel);
+		}
+	}
+	
+	public static void spawnShrapnelShower(World world, double x, double y, double z, double motionX, double motionY, double motionZ, int count, double deviation) {
+		
+		for(int i = 0; i < count; i++) {
+			EntityShrapnel shrapnel = new EntityShrapnel(world);
+			shrapnel.posX = x;
+			shrapnel.posY = y;
+			shrapnel.posZ = z;
+			shrapnel.motionX = motionX + rand.nextGaussian() * deviation;
+			shrapnel.motionY = motionY + rand.nextGaussian() * deviation;
+			shrapnel.motionZ = motionZ + rand.nextGaussian() * deviation;
+			shrapnel.setTrail(rand.nextInt(3) == 0);
+			world.spawnEntityInWorld(shrapnel);
+		}
+	}
+	
+	public static void spawnMissileDebris(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double deviation, List<ItemStack> debris, ItemStack rareDrop) {
+		
+		if(debris != null) {
+			for(int i = 0; i < debris.size(); i++) {
+				if(debris.get(i) != null) {
+					int k = rand.nextInt(debris.get(i).stackSize + 1);
+					for(int j = 0; j < k; j++) {
+						EntityItem item = new EntityItem(world, x, y, z, new ItemStack(debris.get(i).getItem()));
+						item.motionX = (motionX + rand.nextGaussian() * deviation) * 0.85;
+						item.motionY = (motionY + rand.nextGaussian() * deviation) * 0.85;
+						item.motionZ = (motionZ + rand.nextGaussian() * deviation) * 0.85;
+						item.posX = item.posX + item.motionX * 2;
+						item.posY = item.posY + item.motionY * 2;
+						item.posZ = item.posZ + item.motionZ * 2;
+						
+						world.spawnEntityInWorld(item);
+					}
+				}
+			}
+		}
+		
+		if(rareDrop != null && rand.nextInt(10) == 0) {
+			EntityItem item = new EntityItem(world, x, y, z, rareDrop.copy());
+			item.motionX = motionX + rand.nextGaussian() * deviation * 0.1;
+			item.motionY = motionY + rand.nextGaussian() * deviation * 0.1;
+			item.motionZ = motionZ + rand.nextGaussian() * deviation * 0.1;
+			
+			world.spawnEntityInWorld(item);
 		}
 	}
 	

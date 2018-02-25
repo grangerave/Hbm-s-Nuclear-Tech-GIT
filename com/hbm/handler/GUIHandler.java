@@ -49,10 +49,13 @@ import com.hbm.tileentity.machine.TileEntityMachinePress;
 import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
+import com.hbm.tileentity.machine.TileEntityMachineRadGen;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
+import com.hbm.tileentity.machine.TileEntityMachineSiren;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
@@ -568,6 +571,33 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_siren:
+			{
+				if(entity instanceof TileEntityMachineSiren)
+				{
+					return new ContainerMachineSiren(player.inventory, (TileEntityMachineSiren) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_radgen:
+			{
+				if(entity instanceof TileEntityMachineRadGen)
+				{
+					return new ContainerMachineRadGen(player.inventory, (TileEntityMachineRadGen) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_radar:
+			{
+				if(entity instanceof TileEntityMachineRadar)
+				{
+					return new ContainerMachineRadar(player.inventory, (TileEntityMachineRadar) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1073,6 +1103,33 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+				
+				case ModBlocks.guiID_siren:
+				{
+					if(entity instanceof TileEntityMachineSiren)
+					{
+						return new GUIMachineSiren(player.inventory, (TileEntityMachineSiren) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_radgen:
+				{
+					if(entity instanceof TileEntityMachineRadGen)
+					{
+						return new GUIMachineRadGen(player.inventory, (TileEntityMachineRadGen) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_radar:
+				{
+					if(entity instanceof TileEntityMachineRadar)
+					{
+						return new GUIMachineRadar(player.inventory, (TileEntityMachineRadar) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//CLIENTONLY GUIS
@@ -1081,6 +1138,8 @@ public class GUIHandler implements IGuiHandler {
 			{
 			case ModItems.guiID_item_folder:
 				return new GUIScreenTemplateFolder(player);
+			case ModItems.guiID_item_designator:
+				return new GUIScreenDesignator(player);
 			}
 		}
 		return null;
