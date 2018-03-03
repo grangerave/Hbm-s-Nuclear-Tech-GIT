@@ -146,6 +146,7 @@ public class ModBlocks {
 	public static Block mush_block;
 	public static Block mush_block_stem;
 
+	public static Block waste_ash;
 	public static Block waste_earth;
 	public static Block waste_mycelium;
 	public static Block waste_trinitite;
@@ -592,7 +593,8 @@ public class ModBlocks {
 		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.tabBlock).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
 		mush_block_stem = new BlockMushHuge(Material.plants).setBlockName("mush_block_stem").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_stem");
-
+		
+		waste_ash = new WasteAsh(Material.snow).setBlockName("waste_ash").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.tabBlock).setHardness(0.1F).setResistance(1.0F).setLightOpacity(0);
 		waste_earth = new WasteEarth(Material.ground).setBlockName("waste_earth").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.tabBlock).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":waste_earth");
 		waste_mycelium = new WasteEarth(Material.ground).setBlockName("waste_mycelium").setStepSound(Block.soundTypeGrass).setLightLevel(1F).setCreativeTab(MainRegistry.tabBlock).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":waste_mycelium_side");
 		waste_trinitite = new BlockOre(Material.sand).setBlockName("waste_trinitite").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.tabBlock).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite");
@@ -963,6 +965,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());
 		
 		//Nuclear Waste
+		GameRegistry.registerBlock(waste_ash, waste_ash.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_mycelium, waste_mycelium.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_trinitite, waste_trinitite.getUnlocalizedName());

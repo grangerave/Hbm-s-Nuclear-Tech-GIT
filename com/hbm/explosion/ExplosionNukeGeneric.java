@@ -371,10 +371,11 @@ public class ExplosionNukeGeneric {
 					|| b == Blocks.web || b == ModBlocks.red_cable
 					|| b instanceof BlockLiquid) {
 				world.setBlock(x, y, z, Blocks.air,0, 2);
+				//world.spawnParticle("happyVillager", x + 0.5D, y+1.5D, z+0.5D, 0, 1.0, 0.0);
 				return 0;
 			} else if (b.getExplosionResistance(null)<=3.0f && !b.isOpaqueCube()){
-				if(b != Blocks.chest && b != Blocks.farmland){
-					//destroy all medium resistance blocks that aren't chests or farmland
+				if(b != Blocks.chest && b != Blocks.farmland && b != ModBlocks.waste_ash){
+					//destroy all medium resistance blocks that aren't chests or farmland or ash
 					world.setBlock(x, y, z, Blocks.air,0,2);
 					return 0;
 				}

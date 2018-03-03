@@ -24,7 +24,7 @@ public class EntityMissileBusterStrong extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-		for(int i = 0; i < 20; i++)
+		for(int i = -1; i < 20; i++)
 		{
 			this.worldObj.createExplosion(this, this.posX, this.posY - i, this.posZ, 7.5F, true);
 			if(ExplosionNukeGeneric.destruction(worldObj, (int)this.posX, (int)(this.posY-i), (int)this.posZ)>10){

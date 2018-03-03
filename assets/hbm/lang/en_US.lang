@@ -879,6 +879,7 @@ item.missile_kit.name=Missile Kit
 item.t45_kit.name=T45 Power Armor Kit
 item.euphemium_kit.name=Euphemium Kit
 
+tile.waste_ash.name=Radioactive Ash
 tile.waste_earth.name=Dead Grass
 tile.waste_trinitite.name=Trinitite Ore
 tile.waste_trinitite_red.name=Red Trinitite Ore

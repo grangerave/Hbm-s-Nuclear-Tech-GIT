@@ -24,7 +24,7 @@ public class EntityMissileDrill extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-		for(int i = 0; i < 30; i++)
+		for(int i = -1; i < 30; i++)
 		{	
 			this.worldObj.createExplosion(this, this.posX, this.posY - i, this.posZ, 10F, true);
 			if(ExplosionNukeGeneric.destruction(worldObj, (int)this.posX, (int)(this.posY-i), (int)this.posZ)>14){

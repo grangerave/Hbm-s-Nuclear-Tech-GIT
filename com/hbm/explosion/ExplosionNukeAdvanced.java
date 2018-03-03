@@ -1,5 +1,7 @@
 package com.hbm.explosion;
 
+import com.hbm.blocks.ModBlocks;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -106,6 +108,13 @@ public class ExplosionNukeAdvanced
 				}else{//don't spare blocks above epicenter
 					ExplosionNukeGeneric.destruction(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
 				}
+			}
+			if(this.worldObj.rand.nextInt(4)==1) {
+				//occasionally replace an air block with radioactive ash
+				int yy = this.posY - (int)(dist * this.explosionCoefficient);
+				if(this.worldObj.isAirBlock(this.posX + x,yy,this.posZ +  z)&&
+						ModBlocks.waste_ash.canPlaceBlockAt(this.worldObj, this.posX + x,yy,this.posZ +  z))
+					this.worldObj.setBlock(this.posX + x,yy,this.posZ +  z, ModBlocks.waste_ash, this.worldObj.rand.nextInt(3), 1);
 			}
 		}
 	}
