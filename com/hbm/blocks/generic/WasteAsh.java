@@ -10,6 +10,7 @@ import com.hbm.main.MainRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockSnow;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -100,7 +101,7 @@ public class WasteAsh extends BlockSnow {
     {
 		if(super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_)) {
 			Block block = p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_);
-			return block != ModBlocks.waste_earth && block != ModBlocks.waste_log && block != ModBlocks.waste_trinitite && block != ModBlocks.waste_trinitite_red  && block != ModBlocks.waste_mycelium;
+			return block != ModBlocks.waste_earth && !(block instanceof BlockLeaves) && block != ModBlocks.waste_log && block != ModBlocks.waste_trinitite && block != ModBlocks.waste_trinitite_red  && block != ModBlocks.waste_mycelium;
 		}
 		return false;
     }

@@ -24,6 +24,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.BlockFluidBase;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.DecoBlockAlt;
@@ -369,9 +370,8 @@ public class ExplosionNukeGeneric {
 			Block b = world.getBlock(x,y,z);
 			if (b.getExplosionResistance(null)<0.5f //most light things
 					|| b == Blocks.web || b == ModBlocks.red_cable
-					|| b instanceof BlockLiquid) {
+					|| b instanceof BlockLiquid || b instanceof BlockFluidBase) {
 				world.setBlock(x, y, z, Blocks.air,0, 2);
-				//world.spawnParticle("happyVillager", x + 0.5D, y+1.5D, z+0.5D, 0, 1.0, 0.0);
 				return 0;
 			} else if (b.getExplosionResistance(null)<=3.0f && !b.isOpaqueCube()){
 				if(b != Blocks.chest && b != Blocks.farmland && b != ModBlocks.waste_ash){
